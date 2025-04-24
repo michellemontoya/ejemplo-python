@@ -31,12 +31,6 @@ pipeline {
             }
         }
 
-        stage('Archive Results') {
-            steps {
-                // Archivar el archivo de resultados de las pruebas
-                archiveArtifacts artifacts: 'report.xml', allowEmptyArchive: true
-            }
-        }
 
     }
 
