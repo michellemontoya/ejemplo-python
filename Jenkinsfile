@@ -8,31 +8,29 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Asegúrate de usar el repositorio correcto
                 git url: 'https://github.com/michellemontoya/ejemplo-python.git', branch: 'main'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Asegurarse de que pip esté disponible
-                sh 'python3 -m ensurepip --upgrade'  // Instalar pip si no está presente
-                sh 'python3 -m pip install --upgrade pip'  // Actualizar pip
+                // Descargar e instalar pip si no está disponible
+                sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'  // Descargar el script para instalar pip
+                sh 'python3 get-pip.py'  // Ejecutar el script para instalar pip
+                sh 'python3 -m pip install --upgrade pip'  // Asegurarse de tener la versión más reciente de pip
                 sh 'pip install pytest'  // Instalar pytest
             }
         }
 
         stage('Test') {
             steps {
-                // Ejecutar las pruebas
-                sh 'pytest --junitxml=report.xml'  // Ejecutar pruebas y generar reporte XML
+                sh 'pytest --junitxml=report.xml'  // Ejecutar las pruebas y generar un reporte XML
             }
         }
 
         stage('Archive Results') {
             steps {
-                // Archivar el reporte de pruebas
-                junit 'report.xml'  // Archivar resultados de las pruebas
+                junit 'report.xml'  // Archivar el reporte de pruebas
             }
         }
     }
