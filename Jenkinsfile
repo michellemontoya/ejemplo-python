@@ -8,29 +8,31 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/michellemontoya/ejemplo-python.git', branch: 'main'
+                git 'https://github.com/michellemontoya/ejemplo-python.git'
+            }
+        }
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/michellemontoya/ejemplo-java.git', branch: 'main'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Crear un entorno virtual
-                sh 'python3 -m venv venv'  // Crea un entorno virtual llamado 'venv'
-                sh '. venv/bin/activate'   // Activa el entorno virtual
-                sh 'pip install --upgrade pip'  // Asegurarse de tener pip actualizado en el entorno virtual
-                sh 'pip install pytest'  // Instalar pytest dentro del entorno virtual
+                sh 'python3 -m pip install --upgrade pip'
+                sh 'pip install pytest'
             }
         }
 
         stage('Test') {
             steps {
-                sh '. venv/bin/activate && pytest --junitxml=report.xml'  // Ejecutar pruebas dentro del entorno virtual
+                sh 'pytest --junitxml=report.xml'
             }
         }
 
         stage('Archive Results') {
             steps {
-                junit 'report.xml'  // Archivar el reporte de pruebas
+                junit 'report.xml'
             }
         }
     }
