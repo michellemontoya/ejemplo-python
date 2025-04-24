@@ -11,12 +11,12 @@ pipeline {
 
         stage('Setup Virtual Environment') {
             steps {
-                sh '. /tmp/venv/bin/activate'
+                // Creamos un entorno virtual si no existe
+                sh 'python3 -m venv /tmp/venv' // Ajusta la ruta si prefieres otro directorio
+                // Activamos el entorno virtual
+                sh 'source /tmp/venv/bin/activate'
             }
         }
-
-
-
 
         stage('Install Dependencies') {
             steps {
