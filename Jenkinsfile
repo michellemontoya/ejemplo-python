@@ -14,8 +14,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip install pytest'
+                script {
+                    // Instalar pip si no está disponible
+                    sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
+                    sh 'python3 get-pip.py'
+                    sh 'python3 -m pip install --upgrade pip'
+                    sh 'python3 -m pip install -r requirements.txt'
+                }
             }
         }
 
