@@ -14,9 +14,8 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
-                // Si no tienes un requirements.txt, puedes usar:
-                // sh 'pip install pytest'
+                // Usar pip directamente porque ya está en el PATH
+                sh 'pip install -r requirements.txt || pip install pytest'
             }
         }
 
