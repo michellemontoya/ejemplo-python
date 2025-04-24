@@ -14,17 +14,17 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Descargar e instalar pip si no está disponible
-                sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'  // Descargar el script para instalar pip
-                sh 'python3 get-pip.py'  // Ejecutar el script para instalar pip
-                sh 'python3 -m pip install --upgrade pip'  // Asegurarse de tener la versión más reciente de pip
-                sh 'pip install pytest'  // Instalar pytest
+                // Crear un entorno virtual
+                sh 'python3 -m venv venv'  // Crea un entorno virtual llamado 'venv'
+                sh '. venv/bin/activate'   // Activa el entorno virtual
+                sh 'pip install --upgrade pip'  // Asegurarse de tener pip actualizado en el entorno virtual
+                sh 'pip install pytest'  // Instalar pytest dentro del entorno virtual
             }
         }
 
         stage('Test') {
             steps {
-                sh 'pytest --junitxml=report.xml'  // Ejecutar las pruebas y generar un reporte XML
+                sh '. venv/bin/activate && pytest --junitxml=report.xml'  // Ejecutar pruebas dentro del entorno virtual
             }
         }
 
