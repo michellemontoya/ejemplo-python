@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'tu-usuario/tu-imagen-personalizada:tag'
+            args '-u root' // necesario si necesitas permisos de root para instalar cosas
+        }
+    }
 
     environment {
         PYTHONUNBUFFERED = '1'
@@ -14,7 +19,6 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Usar pip directamente porque ya está en el PATH
                 sh 'pip install -r requirements.txt || pip install pytest'
             }
         }
