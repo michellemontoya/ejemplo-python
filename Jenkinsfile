@@ -8,11 +8,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/michellemontoya/ejemplo-python.git'
-            }
-        }
-        stage('Checkout') {
-            steps {
                 git url: 'https://github.com/michellemontoya/ejemplo-java.git', branch: 'main'
             }
         }
