@@ -24,6 +24,13 @@ pipeline {
         }
         
 
+        stage('Test') {
+            steps {
+                // Ejecutamos las pruebas usando pytest y generamos el reporte
+                sh '/tmp/venv/bin/pytest --junitxml=report.xml'
+            }
+        }
+
         stage('Archive Results') {
             steps {
                 // Archivos de resultados de las pruebas
