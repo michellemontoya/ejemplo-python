@@ -15,14 +15,16 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Instalar pip si no está disponible
-                    sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
-                    sh 'python3 get-pip.py'
-                    sh 'python3 -m pip install --upgrade pip'
-                    // Si tienes un archivo requirements.txt
-                    sh 'python3 -m pip install -r requirements.txt'
-                    // Si no tienes requirements.txt, instala las dependencias directamente:
-                    // sh 'python3 -m pip install pytest'
+                    // Crear un entorno virtual
+                    sh 'python3 -m venv venv'
+                    // Activar el entorno virtual
+                    sh 'source venv/bin/activate'
+                    // Instalar pip dentro del entorno virtual
+                    sh 'python3 -m ensurepip --upgrade'
+                    // Instalar las dependencias desde el requirements.txt
+                    sh 'pip install -r requirements.txt'
+                    // Si no tienes un requirements.txt, usa algo como:
+                    // sh 'pip install pytest'
                 }
             }
         }
