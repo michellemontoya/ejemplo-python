@@ -1,10 +1,9 @@
 pipeline {
-    agent any
+    agent { label 'python' }
 
     stages {
         stage('Checkout') {
             steps {
-                // Clonamos el repositorio
                 git url: 'https://github.com/michellemontoya/ejemplo-python.git', branch: 'main'
             }
         }
@@ -19,33 +18,24 @@ pipeline {
 
         stage('Ejecutar pruebas') {
             steps {
-                sh './venv/bin/python -m unittest test_calculator.py'
+                // Ejecuta pytest y genera reporte en formato JUnit
+                sh './venv/bin/pytest --junitxml=report.xml'
             }
         }
-        
 
-        stage('Test') {
+        stage('Publicar reporte') {
             steps {
-                // Ejecutamos las pruebas usando pytest y generamos el reporte
-                sh '/tmp/venv/bin/pytest --junitxml=report.xml'
+                junit 'report.xml'
             }
         }
-
-        stage('Archive Results') {
-            steps {
-                // Archivar el archivo de resultados de las pruebas
-                archiveArtifacts artifacts: 'report.xml', allowEmptyArchive: true
-            }
-        }
-
     }
 
     post {
         always {
-            echo 'Pipeline completed.'
+            echo '✅ Pipeline completed.'
         }
         failure {
-            echo 'Pipeline failed.'
+            echo '❌ Pipeline failed.'
         }
     }
 }
