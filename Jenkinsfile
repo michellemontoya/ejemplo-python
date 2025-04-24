@@ -9,29 +9,20 @@ pipeline {
             }
         }
 
-        stage('Setup Virtual Environment') {
+        stage('Instalar dependencias') {
             steps {
-                // Creamos un entorno virtual si no existe
-                sh 'python3 -m venv /tmp/venv' // Ajusta la ruta si prefieres otro directorio
-                // Activamos el entorno virtual
-                sh 'source /tmp/venv/bin/activate'
+                sh 'python3 -m venv venv'
+                sh './venv/bin/pip install --upgrade pip'
+                sh './venv/bin/pip install -r requirements.txt'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Ejecutar pruebas') {
             steps {
-                // Instalamos las dependencias en el entorno virtual
-                sh '/tmp/venv/bin/pip install --upgrade pip'
-                sh '/tmp/venv/bin/pip install -r requirements.txt'
+                sh './venv/bin/python -m unittest test_calculator.py'
             }
         }
-
-        stage('Test') {
-            steps {
-                // Ejecutamos las pruebas usando pytest y generamos el reporte
-                sh '/tmp/venv/bin/pytest --junitxml=report.xml'
-            }
-        }
+        
 
         stage('Archive Results') {
             steps {
