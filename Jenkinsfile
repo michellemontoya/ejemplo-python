@@ -8,26 +8,31 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/michellemontoya/ejemplo-java.git', branch: 'main'
+                // Asegúrate de usar el repositorio correcto
+                git url: 'https://github.com/michellemontoya/ejemplo-python.git', branch: 'main'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip install pytest'
+                // Asegurarse de que pip esté disponible
+                sh 'python3 -m ensurepip --upgrade'  // Instalar pip si no está presente
+                sh 'python3 -m pip install --upgrade pip'  // Actualizar pip
+                sh 'pip install pytest'  // Instalar pytest
             }
         }
 
         stage('Test') {
             steps {
-                sh 'pytest --junitxml=report.xml'
+                // Ejecutar las pruebas
+                sh 'pytest --junitxml=report.xml'  // Ejecutar pruebas y generar reporte XML
             }
         }
 
         stage('Archive Results') {
             steps {
-                junit 'report.xml'
+                // Archivar el reporte de pruebas
+                junit 'report.xml'  // Archivar resultados de las pruebas
             }
         }
     }
