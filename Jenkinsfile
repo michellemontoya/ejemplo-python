@@ -33,10 +33,11 @@ pipeline {
 
         stage('Archive Results') {
             steps {
-                // Archivos de resultados de las pruebas
-                junit 'report.xml'
+                // Archivar el archivo de resultados de las pruebas
+                archiveArtifacts artifacts: 'report.xml', allowEmptyArchive: true
             }
         }
+
     }
 
     post {
