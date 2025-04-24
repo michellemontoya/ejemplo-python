@@ -14,18 +14,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    // Crear un entorno virtual
-                    sh 'python3 -m venv venv'
-                    // Activar el entorno virtual
-                    sh 'source venv/bin/activate'
-                    // Instalar pip dentro del entorno virtual
-                    sh 'python3 -m ensurepip --upgrade'
-                    // Instalar las dependencias desde el requirements.txt
-                    sh 'pip install -r requirements.txt'
-                    // Si no tienes un requirements.txt, usa algo como:
-                    // sh 'pip install pytest'
-                }
+                sh 'pip install -r requirements.txt'
+                // Si no tienes un requirements.txt, puedes usar:
+                // sh 'pip install pytest'
             }
         }
 
