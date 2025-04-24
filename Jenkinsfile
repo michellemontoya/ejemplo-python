@@ -1,14 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'tu-usuario/tu-imagen-personalizada:tag'
-            args '-u root' // necesario si necesitas permisos de root para instalar cosas
-        }
-    }
-
-    environment {
-        PYTHONUNBUFFERED = '1'
-    }
+    agent any
 
     stages {
         stage('Checkout') {
@@ -19,6 +10,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
+                sh 'python3 -m pip install --upgrade pip'
                 sh 'pip install -r requirements.txt || pip install pytest'
             }
         }
