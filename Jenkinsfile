@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/michellemontoya/ejemplo-java.git', branch: 'main'
+                git url: 'https://github.com/michellemontoya/ejemplo-python.git', branch: 'main'
             }
         }
 
@@ -19,7 +19,10 @@ pipeline {
                     sh 'curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py'
                     sh 'python3 get-pip.py'
                     sh 'python3 -m pip install --upgrade pip'
+                    // Si tienes un archivo requirements.txt
                     sh 'python3 -m pip install -r requirements.txt'
+                    // Si no tienes requirements.txt, instala las dependencias directamente:
+                    // sh 'python3 -m pip install pytest'
                 }
             }
         }
