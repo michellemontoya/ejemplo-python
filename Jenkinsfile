@@ -8,22 +8,22 @@ pipeline {
             }
         }
 
-        stage('Create Virtual Environment') {
+        stage('Setup Virtual Environment') {
             steps {
-                sh 'python3 -m venv /tmp/venv'  // Cambiado a /tmp/venv
-                sh '/tmp/venv/bin/pip install --upgrade pip'  // Actualiza pip dentro del entorno virtual
+                // Asegúrate de que el entorno virtual ya esté creado
+                sh 'source /path/to/existing/venv/bin/activate'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh '/tmp/venv/bin/pip install -r requirements.txt || /tmp/venv/bin/pip install pytest'  // Instala las dependencias dentro del entorno virtual
+                sh '/path/to/existing/venv/bin/pip install -r requirements.txt'
             }
         }
 
         stage('Test') {
             steps {
-                sh '/tmp/venv/bin/pytest --junitxml=report.xml'  // Ejecuta las pruebas dentro del entorno virtual
+                sh '/path/to/existing/venv/bin/pytest --junitxml=report.xml'
             }
         }
 
