@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Descargar código') {
             steps {
-                git 'https://github.com/michellemontoya/ejemplo-python.git'
+                git branch: 'main', url: 'https://github.com/michellemontoya/ejemplo-python.git'
+
             }
         }
 
