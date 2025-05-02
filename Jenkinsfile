@@ -21,17 +21,23 @@ pipeline {
             }
         }
 
-        stage('Ejecutar pruebas') {
+        stage('Ejecutar pruebas y generar reporte') {
             steps {
                 sh '''
                     if [ -d tests ]; then
-                        python3 -m unittest discover tests || echo "Fallo la ejecución de pruebas"
+                        mkdir -p reports
+                        python3 -m xmlrunner discover -s tests -o reports || echo "Fallo la ejecución de pruebas"
                     else
                         echo "No hay carpeta de tests"
                     fi
                 '''
             }
         }
+
+        stage('Publicar reporte') {
+            steps {
+                junit 'reports/**/*.xml'
+            }
+        }
     }
 }
-
